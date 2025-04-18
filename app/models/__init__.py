@@ -1,21 +1,13 @@
-class Planet:
-    def __init__(self, id, name, description, diameter):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.diameter = diameter  # additional attribute
+from app.models.planet import Planet
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "diameter": self.diameter
-        }
-    
-    planet_list = [
-    Planet(1, "Mercury", "Closest planet to the sun.", 3031.9),
-    Planet(2, "Venus", "Second planest closet to the sun", 7520.8),
-    Planet(3, "Earth", "Third planet closest to the sun.", 7926.2),
-    Planet(4, "Mars", "Fourth planet closest from the sun.", 4212.3)
+# Create a list of Planet instances
+planet_list = [
+    Planet(1, "Mercury", "The smallest and innermost planet in the Solar System", 4879),
+    Planet(2, "Venus", "Second planet from the Sun with thick atmosphere", 12104),
+    Planet(3, "Earth", "Our home planet and the only known planet with life", 12742),
+    Planet(4, "Mars", "The Red Planet, fourth from the Sun", 6779),
+    Planet(5, "Jupiter", "The largest planet in our Solar System", 139820),
+    Planet(6, "Saturn", "Known for its prominent ring system", 116460),
+    Planet(7, "Uranus", "The seventh planet from the Sun", 50724),
+    Planet(8, "Neptune", "The eighth and farthest planet from the Sun", 49244)
 ]

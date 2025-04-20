@@ -1,3 +1,10 @@
+'''
+    This creates a class of a Planet object. There are 3 attributes:
+    name, deacription, and diameter in kilometers. There is a method 
+    that creates a dictionary with Planet attributes. 
+    Programmer: Yasiel Lopez
+'''
+
 class Planet:
     def __init__(self, id, name, description, diameter_km):
         self.id = id

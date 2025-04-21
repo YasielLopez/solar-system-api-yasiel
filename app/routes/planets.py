@@ -11,20 +11,6 @@ def get_all_planets():
     planets_response = [planet.to_dict() for planet in planet_list]
     return jsonify(planets_response)
 
-<<<<<<< HEAD
-@planets_bp.route("<id>", methods=["GET"])
-def get_one_planet(id):
-    pass
-
-def validate_planet(id):
-    tri: id = inct()
-except value
-
-def make_responses(invalid, 400)
-return planet 
-
-
-=======
 @planets_bp.get("/<planet_id>")
 def get_one_planet(planet_id):
     planet_id = validate_planet(planet_id)
@@ -52,4 +38,3 @@ def validate_planet(planet_id):
 
     response = {"message": f"planet {planet_id} not found"}
     abort(make_response(response, 404))
->>>>>>> 8f78c8a4f4926b52687953ac70a0cbb78fa65ad5

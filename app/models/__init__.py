@@ -1,4 +1,4 @@
-from app.models.planet import Planet
+from .Planet import Planet
 
 # Create a list of Planet instances
 planet_list = [

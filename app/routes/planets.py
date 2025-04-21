@@ -14,17 +14,17 @@ def get_all_planets():
     planets_response = [planet.to_dict() for planet in planet_list]
     return jsonify(planets_response)
 
-@planets_bp.get("/<id>")
+@planets_bp.get("/<planet_id>")
 def get_one_planet(planet_id):
-
     planet_id = validate_planet(planet_id)
 
     for planet in planet_list:
         if planet.id == planet_id:
             return {
-                "id": planet.id,
-                "title": planet.title,
                 "description": planet.description,
+                "diameter_km": planet.diameter_km,
+                "id": planet.id,
+                "name": planet.name
             }
     return {"message": f"planet {planet_id} not found"}, 404
 

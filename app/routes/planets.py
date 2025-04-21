@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort, make_response
 from app.models import planet_list
 
 
@@ -13,3 +13,31 @@ def get_all_planets():
     """
     planets_response = [planet.to_dict() for planet in planet_list]
     return jsonify(planets_response)
+
+@planets_bp.get("/<id>")
+def get_one_planet(planet_id):
+
+    planet_id = validate_planet(planet_id)
+
+    for planet in planet_list:
+        if planet.id == planet_id:
+            return {
+                "id": planet.id,
+                "title": planet.title,
+                "description": planet.description,
+            }
+    return {"message": f"planet {planet_id} not found"}, 404
+
+def validate_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except:
+        response = {"message": f"planet {planet_id} invalid"}
+        abort(make_response(response, 400))
+
+    for planet in planet_list:
+        if planet.id == planet_id:
+            return planet
+
+    response = {"message": f"planet {planet_id} not found"}
+    abort(make_response(response, 404))

@@ -30,3 +30,7 @@ VALUES('Mercury', 'The smallest and innermost planet in the Solar System', 4879)
 
 -- Check to see that table was created.
 SELECT * FROM planets;
+
+-- Run this command in postgres CLI:
+--                      psql -U postgres solar_system_development < solar_system.sql
+-- Make sure you are in the same folder as the file when you run this command

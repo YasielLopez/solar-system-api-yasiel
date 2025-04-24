@@ -1,5 +1,6 @@
 from flask import Flask
 from .db import db, migrate
+from .routes.planets import planets_bp
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -11,7 +12,6 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     
     # Register blueprints
-    from app.routes.planets import planets_bp
     app.register_blueprint(planets_bp)
     
     @app.route("/")
@@ -19,3 +19,4 @@ def create_app(test_config=None):
         return {"message": "Welcome to the Solar System API!"}
     
     return app
+

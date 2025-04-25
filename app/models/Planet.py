@@ -13,3 +13,4 @@ class Planet(db.Model):
     name: Mapped[str]
     description: Mapped[str]
     diameter_km: Mapped[int]
+

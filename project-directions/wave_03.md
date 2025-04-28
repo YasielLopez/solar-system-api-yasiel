@@ -19,3 +19,30 @@ As a client, I want to send a request...
 
 1. ...with new valid `planet` data and get a success response, so that I know the API saved the planet data
 1. ...to get all existing `planets`, so that I can see a list of planets, with their `id`, `name`, `description`, and other data of the `planet`.
+
+
+<!-- 
+Pseudocode
+db.py
+import statements
+initialize migrate 
+initialize db
+
+__init__.py
+configure SQL alchemy
+initilialize migrate instance
+initialize db instance
+
+models/base.py
+import Declarative base class
+declare class
+
+planets.py
+import statements
+planets blueprint
+post request
+get request
+ -->
+
+
+

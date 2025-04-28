@@ -34,7 +34,6 @@ def get_all_planets():
     planets = db.session.scalars(query)
     # We could also write the line above as:
     # planets = db.session.execute(query).scalars()
-
     planets_response = []
     for planet in planets:
         planets_response.append(

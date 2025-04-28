@@ -46,39 +46,27 @@ def get_all_planets():
         )
     return planets_response, 200
 
-# @planets_bp.get("")
-# def get_all_planets():
-#     planets_response = []
-#     for planet in planets:
-#         planets_response.append(
-#             {
-#                 "id": planet.id,
-#                 "title": planet.title,
-#                 "description": planet.description
-#             }
-#         )
-#     return planets_response
 
-# @planets_bp.get("/<planet_id>")
-# def get_one_planet(planet_id):
-#     planet = validate_planet(planet_id)
 
-#     return {
-#         "id": planet.id,
-#         "title": planet.title,
-#         "description": planet.description,
-#     }
+@planets_bp.get("/<planet_id>")
+def get_one_planet(planet_id):
+    planet = validate_planet(planet_id)
 
-# def validate_planet(planet_id):
-#     try:
-#         planet_id = int(planet_id)
-#     except:
-#         response = {"message": f"planet {planet_id} invalid"}
-#         abort(make_response(response , 400))
+    return {
+        "id": planet.id,
+        "title": planet.title,
+        "description": planet.description,
+    }
 
-#     for planet in planets:
-#         if planet.id == planet_id:
-#             return planet
+def validate_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except ValueError:
+        response = {"message": f"planet {planet_id} invalid"}
+        abort(make_response(response , 400))
+    query = db.select(Planet).where(Planet.id == planet_id)
+    planet = db.session.scalar(query)
 
-#     response = {"message": f"planet {planet_id} not found"}
-#     abort(make_response(response, 404))
+    if not planet:
+        response = {"message": f"planet {planet_id} not found"}
+        abort(make_response(response, 404))

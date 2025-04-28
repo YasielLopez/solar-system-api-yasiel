@@ -58,6 +58,16 @@ def get_one_planet(planet_id):
         "description": planet.description,
     }
 
+@planets_bp.delete("/<planet_id>")
+def delete_planet(planet_id):
+    planet = validate_planet(planet_id)
+    
+    # delete the planet from the database
+    db.session.delete(planet)
+    db.session.commit()
+    
+    return {"message": f"Planet {planet_id} successfully deleted"}, 200
+
 def validate_planet(planet_id):
     try:
         planet_id = int(planet_id)

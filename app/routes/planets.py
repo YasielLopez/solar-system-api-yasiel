@@ -47,15 +47,14 @@ def get_all_planets():
     return planets_response, 200
 
 
-
 @planets_bp.get("/<planet_id>")
 def get_one_planet(planet_id):
     planet = validate_planet(planet_id)
-
     return {
         "id": planet.id,
-        "title": planet.title,
+        "name": planet.name,
         "description": planet.description,
+        "diameter_km": planet.diameter_km
     }
 
 def validate_planet(planet_id):
@@ -70,3 +69,4 @@ def validate_planet(planet_id):
     if not planet:
         response = {"message": f"planet {planet_id} not found"}
         abort(make_response(response, 404))
+    return planet

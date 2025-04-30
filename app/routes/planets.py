@@ -33,6 +33,24 @@ def get_all_planets():
     description_param = request.args.get("description")
     if description_param:
         query = query.where(Planet.description.ilike(f"%{description_param}%"))
+
+    # diameter filtering
+    min_diameter = request.args.get("min_diameter")
+    max_diameter = request.args.get("max_diameter")
+    
+    if min_diameter:
+        try:
+            min_diameter = float(min_diameter)
+            query = query.where(Planet.diameter_km >= min_diameter)
+        except ValueError:
+            pass
+    
+    if max_diameter:
+        try:
+            max_diameter = float(max_diameter)
+            query = query.where(Planet.diameter_km <= max_diameter)
+        except ValueError:
+            pass
     
     query = query.order_by(Planet.id)
     planets = db.session.scalars(query)
@@ -57,7 +75,8 @@ def get_one_planet(planet_id):
         "id": planet.id,
         "name": planet.name,
         "description": planet.description,
-    }
+        "diameter_km": planet.diameter_km  # added this missing field
+    }, 200
 
 @planets_bp.delete("/<planet_id>")
 def delete_planet(planet_id):

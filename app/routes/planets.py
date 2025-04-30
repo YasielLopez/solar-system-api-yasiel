@@ -2,8 +2,6 @@ from flask import Blueprint, abort, make_response, request
 from ..models.Planet import Planet
 from ..db import db
 
-# from app.models import planet_list
-
 
 # creates a blueprint for planet routes
 planets_bp = Blueprint("planets_bp", __name__, url_prefix="/planets")
@@ -30,11 +28,14 @@ def create_planet():
 
 @planets_bp.get("")
 def get_all_planets():
-    query = db.select(Planet).order_by(Planet.id)
-    planets = db.session.scalars(query)
-    # We could also write the line above as:
-    # planets = db.session.execute(query).scalars()
+    query = db.select(Planet)
 
+    description_param = request.args.get("description")
+    if description_param:
+        query = query.where(Planet.description.ilike(f"%{description_param}%"))
+    
+    query = query.order_by(Planet.id)
+    planets = db.session.scalars(query)
     planets_response = []
     for planet in planets:
         planets_response.append(

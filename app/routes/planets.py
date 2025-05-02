@@ -10,21 +10,15 @@ planets_bp = Blueprint("planets_bp", __name__, url_prefix="/planets")
 def create_planet():
     # Request 
     request_body = request.get_json()
-    name = request_body["name"]
-    description = request_body["description"]
-    diameter_km = request_body["diameter_km"]
-
-    new_planet = Planet(name=name, description=description, diameter_km=diameter_km)
+    try:
+        new_planet = Planet.from_dict(request_body)
+    except KeyError as error:
+        response = {"message": f"Invalid request: missing {error.args[0]}"}
+        abort(make_response(response, 400))
     db.session.add(new_planet)
     db.session.commit()
-    # Response
-    response = {
-        "id": new_planet.id,
-        "name": new_planet.name,
-        "description": new_planet.description,
-        "diameter_km": new_planet.diameter_km
-    }
-    return response, 201
+    
+    return new_planet.to_dict, 201
 
 @planets_bp.get("")
 def get_all_planets():
@@ -56,14 +50,8 @@ def get_all_planets():
     planets = db.session.scalars(query)
     planets_response = []
     for planet in planets:
-        planets_response.append(
-            {
-                "id": planet.id,
-                "name": planet.name,
-                "description": planet.description,
-                "diameter_km": planet.diameter_km
-            }
-        )
+        planets_response.append(planet.to_dict())
+
     return planets_response, 200
 
 
@@ -71,12 +59,7 @@ def get_all_planets():
 def get_one_planet(planet_id):
     planet = validate_planet(planet_id)
 
-    return {
-        "id": planet.id,
-        "name": planet.name,
-        "description": planet.description,
-        "diameter_km": planet.diameter_km  # added this missing field
-    }, 200
+    return planet.to_dict(), 200
 
 @planets_bp.delete("/<planet_id>")
 def delete_planet(planet_id):

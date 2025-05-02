@@ -1,5 +1,40 @@
+import pytest
 from app.db import db
 from app.models.Planet import Planet
+
+# @pytest.mark.skip
+def test_from_dict_returns_book():
+    # Arrange
+    planet_data = {
+        "name": "New Moon",
+        "description": "A satelite recently found in space",
+        "diameter_km": 5879
+    }
+
+    # Act
+    new_planet = Planet.from_dict(planet_data)
+
+    # Assert
+    assert new_planet.name == "New Moon"
+    assert new_planet.description == "A satelite recently found in space"
+    assert new_planet.diameter_km == 5879
+
+def test_to_dict_returns_planet():
+    # Arrange
+    planet_data = Planet(id = 1,
+                        name="Pluto",
+                        description="Used to be a planet",
+                        diameter_km=1240)
+
+    # Act
+    result = planet_data.to_dict()
+
+    # Assert
+    assert len(result) == 4
+    assert result["id"] == 1
+    assert result["name"] == "Pluto"
+    assert result["description"] == "Used to be a planet"
+    assert result["diameter_km"] == 1240
 
 def test_get_all_planets_returns_with_no_records(client):
     # act

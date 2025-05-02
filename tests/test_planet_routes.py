@@ -19,8 +19,8 @@ def test_get_one_planet_returns_seeded_planet(client, one_planet):
     assert response.status_code == 200
     assert response_body["id"] == one_planet.id
     assert response_body["name"] == one_planet.name
-    assert response_body["color"] == one_planet.color
-    assert response_body["personality"] == one_planet.personality
+    assert response_body["description"] == one_planet.description
+    assert response_body["diameter_km"] == one_planet.diameter_km
 # GET /planets/1 with no data in test database (no fixture) returns a 404
 def test_no_data_returns_404(client, one_planet):
     # act

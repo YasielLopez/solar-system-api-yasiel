@@ -1,8 +1,7 @@
 from flask import Flask
 from .db import db, migrate
 from .routes.planets import planets_bp
-# from .models.Planet import Planet
-
+from .models import Planet
 import os
 
 def create_app(config=None):
@@ -14,6 +13,9 @@ def create_app(config=None):
     if config:
         app.config.update(config)
 
+
+    if config:
+        app.config.update(config)
 
     db.init_app(app)
     migrate.init_app(app, db)

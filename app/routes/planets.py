@@ -18,7 +18,7 @@ def create_planet():
     db.session.add(new_planet)
     db.session.commit()
     
-    return new_planet.to_dict, 201
+    return new_planet.to_dict(), 201
 
 @planets_bp.get("")
 def get_all_planets():

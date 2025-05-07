@@ -73,3 +73,35 @@ def test_get_planets(client):
     assert response.status_code == 200
     assert response_body == [] 
 # POST /planets with a JSON request body returns a 201
+
+def test_get_planets_returns_list_with_seeded_planet(client, one_planet):
+    # Act
+    response = client.get("/planets")
+    response_body = response.get_json()
+    
+    # Assert
+    assert response.status_code == 200
+    assert len(response_body) == 1
+    assert response_body[0]["id"] == one_planet.id
+    assert response_body[0]["name"] == one_planet.name
+    assert response_body[0]["description"] == one_planet.description
+    assert response_body[0]["diameter_km"] == one_planet.diameter_km
+
+def test_create_planet_with_valid_data(client):
+    # Arrange
+    new_planet_data = {
+        "name": "Earth",
+        "description": "The only known planet with life",
+        "diameter_km": 12742
+    }
+    
+    # Act
+    response = client.post("/planets", json=new_planet_data)
+    response_body = response.get_json()
+    
+    # Assert
+    assert response.status_code == 201
+    assert "id" in response_body
+    assert response_body["name"] == new_planet_data["name"]
+    assert response_body["description"] == new_planet_data["description"]
+    assert response_body["diameter_km"] == new_planet_data["diameter_km"]

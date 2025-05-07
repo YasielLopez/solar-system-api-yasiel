@@ -65,4 +65,11 @@ def test_no_data_returns_404(client, one_planet):
     # assert
     assert response.status_code == 404
 # GET /planets with valid test data (fixtures) returns a 200 with an array including appropriate test data
+def test_get_planets(client):
+
+    response = client.get("/planets")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == [] 
 # POST /planets with a JSON request body returns a 201

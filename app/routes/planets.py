@@ -86,18 +86,18 @@ def validate_planet(planet_id):
     return planet
 
 # NESTED ROUTES
-# @planets_bp.post("/<planet_id>/moons")
-# def add_new_moon(planet_id):
-#     planet = validate_planet(planet_id)
-#     request_body = request.get_json()
-#     request_body["planet_id"] = planet.id
-#     return create_model(Moon, request_body)
+@planets_bp.post("/<planet_id>/moons")
+def add_new_moon(planet_id):
+    planet = validate_planet(planet_id)
+    request_body = request.get_json()
+    request_body["planet_id"] = planet.id
+    return create_model(Moon, request_body)
 
-# @planets_bp.get("/<planet_id>/moons")
-# def get_books_by_author(planet_id):
-#     planet = validate_planet(Planet, planet_id)
-#     response = [moon.to_dict() for moon in planet.moons]
-#     return response
+@planets_bp.get("/<planet_id>/moons")
+def get_books_by_planet(planet_id):
+    planet = validate_planet(planet_id)
+    response = [moon.to_dict() for moon in planet.moons]
+    return response
 
 
 def create_model(cls, model_data):

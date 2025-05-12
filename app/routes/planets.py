@@ -1,5 +1,6 @@
 from flask import Blueprint, abort, make_response, request
 from ..models.Planet import Planet
+from ..models.Moon import Moon
 from ..db import db
 
 
@@ -58,14 +59,12 @@ def get_all_planets():
 @planets_bp.get("/<planet_id>")
 def get_one_planet(planet_id):
     planet = validate_planet(planet_id)
-
     return planet.to_dict(), 200
 
 @planets_bp.delete("/<planet_id>")
 def delete_planet(planet_id):
     planet = validate_planet(planet_id)
     
-    # delete the planet from the database
     db.session.delete(planet)
     db.session.commit()
     
@@ -85,3 +84,25 @@ def validate_planet(planet_id):
         abort(make_response(response, 404))
 
     return planet
+
+# NESTED ROUTES
+# @planets_bp.post("/<planet_id>/moons")
+# def add_new_moon(planet_id):
+#     planet = validate_planet(planet_id)
+#     request_body = request.get_json()
+#     request_body["planet_id"] = planet.id
+#     return create_model(Moon, request_body)
+
+
+def create_model(cls, model_data):
+    try:
+        new_model = cls.from_dict(model_data)
+        
+    except KeyError as error:
+        response = {"message": f"Invalid request: missing {error.args[0]}"}
+        abort(make_response(response, 400))
+    
+    db.session.add(new_model)
+    db.session.commit()
+
+    return new_model.to_dict(), 201

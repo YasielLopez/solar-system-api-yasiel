@@ -14,3 +14,19 @@ class Moon(db.Model):
     diameter_km: Mapped[int]
     planet_id: Mapped[int]= mapped_column(ForeignKey("planet.id"))
     planet: Mapped[Optional["Planet"]] = relationship(back_populates="moons")
+
+    def to_dict(self):
+        moon_as_dict = {}
+        moon_as_dict["id"] = self.id
+        moon_as_dict["name"] = self.name
+        moon_as_dict["description"] = self.description
+        moon_as_dict["diameter_km"] = self.diameter_km
+        return moon_as_dict
+    
+    @classmethod
+    def from_dict(cls, moon_data):
+        moon = Moon(name=moon_data["name"], 
+                    description=moon_data["description"],
+                    diameter_km=moon_data["diameter_km"],
+                    planet_id=moon_data["planet_id"])
+        return moon
